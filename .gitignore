@@ -5,3 +5,6 @@
 /03-backend-api/validator-api/validator-api/bin/Debug/net6.0
 /03-backend-api/validator-api/validator-api/obj
 /03-backend-api/validator-api/validator-api.Tests/obj
+/03-backend-api/01-international-transactions-microservices/validator-api/bin/Debug/net6.0
+/03-backend-api/01-international-transactions-microservices/validator-api/obj
+/03-backend-api/01-international-transactions-microservices/validator-api.Tests/obj
