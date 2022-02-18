@@ -28,11 +28,5 @@ namespace v2cshtml.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        [HttpPost("ValidateFile")]
-        public async Task<IActionResult> ValidateFile()
-        {
-            return Ok("test");
-        }
     }
 }
