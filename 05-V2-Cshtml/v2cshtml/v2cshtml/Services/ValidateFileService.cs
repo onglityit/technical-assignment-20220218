@@ -1,4 +1,7 @@
-﻿using v2cshtml.Models;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using System.Globalization;
+using v2cshtml.Models;
 
 namespace v2cshtml.Services
 {
@@ -10,24 +13,25 @@ namespace v2cshtml.Services
 
         public ValidateFileResponseModel ValidateFile()
         {
-            ValidateFileResponseModel vfrm = ValidateFileExt();
+            String ext = file1.FileName.Split('.').Last().ToUpper();
+            ValidateFileResponseModel vfrm = ValidateFileExt(ext);
             vfrm = ValidateSize(vfrm);
+            vfrm = ValidateCsvColumn(ext, vfrm);
             return vfrm;
         }
-        public ValidateFileResponseModel ValidateFileExt()
+        public ValidateFileResponseModel ValidateFileExt(String ext)
         {
             ValidateFileResponseModel vfrm = new ValidateFileResponseModel()
             {
                 Success = true,
                 ErrorMessage = String.Empty,
             };
-            String ext = file1.FileName.Split('.').Last();
             if (file1 == null)
             {
                 vfrm.Success = false;
                 vfrm.ErrorMessage += "File is empty!\r\n";
             }
-            if (file1 != null && !SUPPORTED_EXTENSIONS.Contains(ext.ToUpper()))
+            if (file1 != null && !SUPPORTED_EXTENSIONS.Contains(ext))
             {
                 vfrm.Success = false;
                 vfrm.ErrorMessage += "Unknown format\r\n";
@@ -46,6 +50,28 @@ namespace v2cshtml.Services
             {
                 vfrm.Success=false;
                 vfrm.ErrorMessage += "Max file size is 1MB\r\n";
+            }
+            return vfrm;
+        }
+        public ValidateFileResponseModel ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm) { 
+            if(file1 != null && ext == "CSV")
+            {
+                try
+                {
+                    var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                    {
+                        HasHeaderRecord = false,
+                    };
+                    using (var reader = new StreamReader(file1.OpenReadStream()))
+                    using (var csv = new CsvReader(reader, config))
+                    {
+                        var records = csv.GetRecords<CsvTransactionItem>();
+                    }
+                }catch(Exception e)
+                {
+                    vfrm.Success = false;
+                    vfrm.ErrorMessage += e.Message;
+                }
             }
             return vfrm;
         }
