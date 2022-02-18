@@ -1,13 +1,15 @@
 <html>
     <head>
         <title>International Transaction Status - File Ingestion</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="js/script.js"></script>
     </head>
     <body>
         <h1>International Transaction File Ingestion</h1>
         <div>Please upload your file </div>
-        <form action="#">
+        <form>
             <input type="file" id="transactionCsvXml">
-            <input type="submit" value="Upload">
-          </form>
+            <input type="button" value="Validate" onClick="ValidateFile()">
+        </form>
     </body>
 </html>
