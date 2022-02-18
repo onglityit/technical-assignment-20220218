@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Darren.Base.ApiModel.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,8 +9,9 @@ namespace validator_api.Controllers
     [ApiController]
     public class ValidateFileController : ControllerBase
     {
-        public async Task<ActionResult> ValidateFile()
+        public async Task<ActionResult> ValidateFile([FromForm] ITransactionFileModel UploadedFile)
         {
+
             return Ok();
         }
     }

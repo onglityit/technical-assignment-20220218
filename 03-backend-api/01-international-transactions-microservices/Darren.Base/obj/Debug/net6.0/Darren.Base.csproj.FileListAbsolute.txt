@@ -1,0 +1,12 @@
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\bin\Debug\net6.0\Darren.Base.deps.json
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\bin\Debug\net6.0\Darren.Base.dll
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\bin\Debug\net6.0\ref\Darren.Base.dll
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\bin\Debug\net6.0\Darren.Base.pdb
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\Darren.Base.csproj.AssemblyReference.cache
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\Darren.Base.GeneratedMSBuildEditorConfig.editorconfig
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\Darren.Base.AssemblyInfoInputs.cache
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\Darren.Base.AssemblyInfo.cs
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\Darren.Base.csproj.CoreCompileInputs.cache
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\Darren.Base.dll
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\ref\Darren.Base.dll
+C:\PRJ\trng\2c2p\github.com\onglityit\technical-assignment-20220218\03-backend-api\01-international-transactions-microservices\Darren.Base\obj\Debug\net6.0\Darren.Base.pdb

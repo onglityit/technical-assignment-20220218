@@ -5,7 +5,17 @@
       "ProjectGuid": "577a279d-fa64-4e61-b2cc-0acd20aa99ae",
       "DisplayName": "validator-api",
       "ColorIndex": 0
+    },
+    "fc6b78bc-84f6-4680-afc2-141ce513f0c3": {
+      "ProjectGuid": "fc6b78bc-84f6-4680-afc2-141ce513f0c3",
+      "DisplayName": "Darren.Base",
+      "ColorIndex": 1
+    },
+    "1a8b9d73-4f33-4b6e-8a83-a478fdaf3907": {
+      "ProjectGuid": "1a8b9d73-4f33-4b6e-8a83-a478fdaf3907",
+      "DisplayName": "validator-api.Tests",
+      "ColorIndex": 2
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 3
 }

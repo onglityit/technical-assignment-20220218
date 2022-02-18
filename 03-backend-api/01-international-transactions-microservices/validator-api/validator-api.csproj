@@ -10,4 +10,7 @@
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="7.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Darren.Base\Darren.Base.csproj" />
+  </ItemGroup>
 </Project>

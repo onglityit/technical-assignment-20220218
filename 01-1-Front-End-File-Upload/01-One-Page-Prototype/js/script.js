@@ -31,7 +31,7 @@ function ValidateFile(theFile){
     $.ajax(settings).done(function (response) {
         console.log(response);
     })
-    .fail(function(response){
-        console.log("fail", response);
+    .fail(function(response, textStatus, errorThrown){
+        console.log("fail", response.responseText);
     });
 }
