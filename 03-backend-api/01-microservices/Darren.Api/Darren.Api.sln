@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darren.Api.ValidateFile", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darren.Api.ValidateFile.Tests", "Darren.Api.ValidateFile.Tests\Darren.Api.ValidateFile.Tests.csproj", "{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darren.Model", "Darren.Model\Darren.Model.csproj", "{721FC278-0615-496E-ABCE-E8DF4DB1406D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{721FC278-0615-496E-ABCE-E8DF4DB1406D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{721FC278-0615-496E-ABCE-E8DF4DB1406D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{721FC278-0615-496E-ABCE-E8DF4DB1406D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{721FC278-0615-496E-ABCE-E8DF4DB1406D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
