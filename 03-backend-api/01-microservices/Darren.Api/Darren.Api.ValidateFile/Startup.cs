@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Darren.Api.ValidateFile
 {
@@ -27,6 +28,20 @@ namespace Darren.Api.ValidateFile
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Darren Validate File API",
+                    Version = "v1",
+                    Description = "Validate File API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Darren Ong",
+                        Email = string.Empty,
+                    },
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -50,6 +65,18 @@ namespace Darren.Api.ValidateFile
                 {
                     await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda");
                 });
+            });
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Zomato API V1");
+
+                // To serve SwaggerUI at application's root page, set the RoutePrefix property to an empty string.
+                c.RoutePrefix = "swagger";
             });
         }
     }
