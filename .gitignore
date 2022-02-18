@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/03-backend-api/validator-api/validator-api/bin/Debug/net6.0
+/03-backend-api/validator-api/validator-api/obj
+/03-backend-api/validator-api/validator-api.Tests/obj
