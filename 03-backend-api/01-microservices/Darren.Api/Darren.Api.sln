@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darren.Api.ValidateFile", "Darren.Api.ValidateFile\Darren.Api.ValidateFile.csproj", "{BA2130DD-A6DE-4E24-8BAE-C69EBA1322E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Darren.Api.ValidateFile.Tests", "Darren.Api.ValidateFile.Tests\Darren.Api.ValidateFile.Tests.csproj", "{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA2130DD-A6DE-4E24-8BAE-C69EBA1322E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2130DD-A6DE-4E24-8BAE-C69EBA1322E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2130DD-A6DE-4E24-8BAE-C69EBA1322E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2130DD-A6DE-4E24-8BAE-C69EBA1322E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64D5E3D5-DC2D-43AF-AB03-C0EE7911B88E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A235304B-E210-4F92-B9C7-63F60C1F75AE}
+	EndGlobalSection
+EndGlobal
