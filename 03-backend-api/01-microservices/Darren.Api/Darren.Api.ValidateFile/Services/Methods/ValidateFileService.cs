@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Darren.Api.ValidateFile.Services.Interface;
+using System;
 
 namespace Darren.Api.ValidateFile.Services.Methods
 {
-    public class ValidateFileService
+    public class ValidateFileService : IValidateFileService
     {
         public bool CheckFileExtension(String extension)
         {
