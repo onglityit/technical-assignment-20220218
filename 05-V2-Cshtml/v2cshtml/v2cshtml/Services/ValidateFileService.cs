@@ -26,7 +26,8 @@ namespace v2cshtml.Services
             {
                 vfrm.Success = false;
                 vfrm.ErrorMessage += "File is empty!\r\n";
-            }else if (!SUPPORTED_EXTENSIONS.Contains(ext.ToUpper()))
+            }
+            if (file1 != null && !SUPPORTED_EXTENSIONS.Contains(ext.ToUpper()))
             {
                 vfrm.Success = false;
                 vfrm.ErrorMessage += "Unknown format\r\n";
@@ -41,7 +42,7 @@ namespace v2cshtml.Services
                 vfrm.Success = false;
                 vfrm.ErrorMessage += "File is empty!\r\n";
             }
-            else if (file1.Length > MAX_FILE_SIZE)
+            if (file1 != null && file1.Length > MAX_FILE_SIZE)
             {
                 vfrm.Success=false;
                 vfrm.ErrorMessage += "Max file size is 1MB\r\n";
