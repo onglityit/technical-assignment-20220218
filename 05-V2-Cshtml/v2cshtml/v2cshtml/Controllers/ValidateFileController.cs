@@ -14,6 +14,7 @@ namespace v2cshtml.Controllers
         [HttpPost("ValidateFile")]
         public async Task<IActionResult> ValidateFile(IFormFile file1)
         {
+            return BadRequest("Hello");
             return Ok("File Uploaded Successfully");
         }
     }
