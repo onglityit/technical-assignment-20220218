@@ -2,6 +2,6 @@
 {
     public interface IUploadFileService
     {
-        public String WriteToStorageReturnUri(String fileName, String blobFolderPath, IFormFile file1);
+        public Task<String> WriteToStorageReturnUri(String fileName, String blobFolderPath, IFormFile file1);
     }
 }
