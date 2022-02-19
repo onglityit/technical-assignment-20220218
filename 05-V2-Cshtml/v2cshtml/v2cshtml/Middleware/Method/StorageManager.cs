@@ -14,8 +14,6 @@ namespace v2cshtml.Middleware.Method
         private CloudStorageAccount account;
         private CloudBlobClient cloudBlobClient;
         private CloudBlobContainer container;
-        private readonly String BAD_FILE_FOLDER = "bad-file";
-        private readonly String GOOD_FILE_FOLDER = "good-file";
 
         public StorageManager(IConfiguration _config)
         {
@@ -29,11 +27,6 @@ namespace v2cshtml.Middleware.Method
             }
         }
 
-        public async Task<String> WriteTo(String fileName, String content)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<String> WriteToBlob(String fileName, String folderPath, Byte[] fileByte)
         {
             if (!await container.ExistsAsync())
@@ -45,7 +38,7 @@ namespace v2cshtml.Middleware.Method
                 };
                 await container.SetPermissionsAsync(permissions);
             }
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(folderPath + fileName);
             await blockBlob.UploadFromByteArrayAsync(fileByte,0,fileByte.Length);
             return blockBlob.Uri.AbsoluteUri;
 

@@ -8,14 +8,17 @@ namespace v2cshtml.Services.Method
     {
         public String FileExtension { get; set; }
         private readonly IStorageManager iStorage;
+        private readonly String BAD_FILE_FOLDER = "bad-file/";
+        private readonly String GOOD_FILE_FOLDER = "good-file/";
 
         public UploadFileService(IStorageManager _iStorage)
         {
             iStorage = _iStorage;
         }
 
-        public async Task<String> WriteToStorageReturnUri(String fileName, String blobFolderPath, IFormFile file1)
+        public async Task<String> WriteToStorageReturnUri(String fileName, bool isGoodFile, IFormFile file1)
         {
+            String blobFolderPath = isGoodFile ? GOOD_FILE_FOLDER : BAD_FILE_FOLDER;
             String returnUri = String.Empty;
             using (var ms = new MemoryStream())
             {
