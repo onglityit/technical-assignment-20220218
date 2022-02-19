@@ -39,9 +39,8 @@ ERD Descriptions:
 1. DirtyFile, DirtyRecordXml, DirtyRecordCsv
 
 Other Assumptions:
-1. there are many more items to consider in order to fulfill production readiness: CICD, API Gateway, CDN etc
-1. the production considerations serve as a discussion
-1. azure functions technology is used due its serverless nature. azure function can be triggered by azure queue 
-1. azure function based on queue, and on-demand cloud resource as compared to webjob always-on cloud resource, therefore azure functions is chosen.
+1. for unknow format, the file will not be stored
+1. assumption is made that unknown format does not help in identifying data error
+1. log file will store the line in nvarchar(1000), longer than that it would be truncated
 1. for those good file, original transaction dates are not required to be stored in db. Instead, the datetime are stored in db column with one single format only.
 1. for bad files, original transaction dates format are in-tact so when troubleshooting, the erroneous format can be seen

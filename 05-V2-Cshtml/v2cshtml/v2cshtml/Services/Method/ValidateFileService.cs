@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using Darren.Base.Model;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using v2cshtml.Models;
@@ -10,7 +11,7 @@ namespace v2cshtml.Services
     public class ValidateFileService : IValidateFileService
     {
         private readonly int MAX_FILE_SIZE = 1024 * 1024;
-        private readonly String[] SUPPORTED_EXTENSIONS = { "CSV", "XML" };
+        private readonly String[] SUPPORTED_EXTENSIONS = { ConstValues.CSV, ConstValues.XML };
         private readonly IUploadFileService iupload;
         private readonly IEnqueueService iqueue;
         public ValidateFileService(IUploadFileService _iupload, IEnqueueService _iqueue)
