@@ -2,6 +2,6 @@
 {
     public interface IEnqueueService
     {
-        public Task EnqueueFile(string fileUri, string ext, bool isGoodFile, bool isDisabled = false);
+        public Task<bool> EnqueueFile(string fileUri, string oriFilename, string ext, bool isGoodFile, bool isDisabled = false);
     }
 }

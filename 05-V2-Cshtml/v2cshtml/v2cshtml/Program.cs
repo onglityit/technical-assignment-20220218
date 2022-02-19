@@ -17,6 +17,9 @@ builder.Services.AddAzureClients(clientBuilder =>
 builder.Services.AddScoped<IValidateFileService, ValidateFileService>();
 builder.Services.AddScoped<IStorageManager, StorageManager>();
 builder.Services.AddScoped<IUploadFileService, UploadFileService>();
+builder.Services.AddScoped<IQueueManager, QueueManager>();
+builder.Services.AddScoped<IEnqueueService, EnqueueService>();
+
 
 var app = builder.Build();
 
