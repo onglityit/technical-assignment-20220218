@@ -15,16 +15,13 @@ namespace v2cshtml.Controllers
         [HttpPost("Alpha")]
         public async Task<IActionResult> Alpha(IFormFile file1)
         {
-            using (var reader = new StreamReader("c:\\pathcsv\\file.csv"))
+            List<CsvIdName> ret = new List<CsvIdName>();
+            using (var reader = new StreamReader(file1.OpenReadStream()))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                var records = csv.GetRecords<CsvIdName>().ToList();
-                foreach(CsvIdName rec in records)
-                {
-                    
-                }
+                ret = csv.GetRecords<CsvIdName>().ToList();
             }
-            return Ok();        
+            return Ok(ret);        
         }
     }
 }
