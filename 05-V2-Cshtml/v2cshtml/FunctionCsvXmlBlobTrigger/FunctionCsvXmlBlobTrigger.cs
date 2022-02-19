@@ -8,6 +8,7 @@ using Darren.Base.Model;
 using FunctionCsvXmlBlobTrigger.Services;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace FunctionCsvXmlBlobTrigger
@@ -24,12 +25,20 @@ namespace FunctionCsvXmlBlobTrigger
                     ILogger log)
 
         {
+
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+            string SqlConnectionString = config["SqlConnectionString"];
+
             if (blobTrigger.Contains("good-file"))
             {
                 if (blobExtension.ToUpper() == ConstValues.CSV)
                 {
                     ExpandLineItemCSV ecsv = new ExpandLineItemCSV();
                     List<CsvTransactionItemBase> lsCsv = await ecsv.GetCsvRows(myBlob);
+                    RecordInsertionService rec = new RecordInsertionService(config);
                 }
             }
         }
