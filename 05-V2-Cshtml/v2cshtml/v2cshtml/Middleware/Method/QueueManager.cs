@@ -18,10 +18,12 @@ namespace v2cshtml.Middleware.Method
         {
             string ret = string.Empty;
             String azureQueueConnString = config["AzureBlobStorage:ConnectionString"].ToString();
-            queueC = new QueueClient(azureQueueConnString, queue);
+            queueC = new QueueClient(azureQueueConnString, queue, new QueueClientOptions
+            {
+                MessageEncoding = QueueMessageEncoding.Base64
+            });
             try
             {
-
                 if (null != await queueC.CreateIfNotExistsAsync())
                 {
                 }
