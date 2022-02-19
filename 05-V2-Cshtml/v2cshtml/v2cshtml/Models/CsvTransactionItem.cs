@@ -5,15 +5,15 @@ namespace v2cshtml.Services
     public class CsvTransactionItem
     {
         [Index(0)]
-        public String TransactionId { get; set; }
+        public string TransactionId { get; set; }
         [Index(1)]
-        public String Amount { get; set; }
+        public string Amount { get; set; }
         [Index(2)]
-        public String CurrencyCode { get; set; }
+        public string CurrencyCode { get; set; }
         [Index(3)]
 
-        public String TransactionDate { get; set; }
+        public string TransactionDate { get; set; }
         [Index(4)]
-        public String Status    { get; set; }
+        public string Status    { get; set; }
     }
 }

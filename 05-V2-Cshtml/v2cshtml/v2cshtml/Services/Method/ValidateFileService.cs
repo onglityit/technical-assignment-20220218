@@ -73,7 +73,7 @@ namespace v2cshtml.Services
                     using (var reader = new StreamReader(file1.OpenReadStream()))
                     using (var csv = new CsvReader(reader, config))
                     {
-                        var records = csv.GetRecords<CsvTransactionItem>();
+                        var records = csv.GetRecords<CsvTransactionItem>().ToList();
                     }
                 }catch(Exception e)
                 {
