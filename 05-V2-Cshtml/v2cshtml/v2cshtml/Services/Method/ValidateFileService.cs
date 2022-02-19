@@ -118,7 +118,8 @@ namespace v2cshtml.Services
                             using (var csvReader = new CsvReader(lineReader, config))
                             {
                                 var records = csvReader.GetRecords<CsvTransactionItem>().ToList();
-                                lsCsv.Append(records[0]);
+                                records[0].Amount = GroomColumns("amount", records[0].Amount, 1);
+                                lsCsv.Add(records[0]);
                             }
                         }
                         //after go through data grooming then upload to good-file in grommed format
@@ -142,6 +143,19 @@ namespace v2cshtml.Services
                     }
                 }
             }
+        }
+
+        public string GroomColumns(string columnName, string oriValue, int groomLevel = 0)
+        {
+            string ret = string.Empty;
+            if (groomLevel > 0)
+            {
+                if (columnName.ToLower() == "amount")
+                {
+                    ret = oriValue.Replace(",", string.Empty);
+                }
+            }
+            return ret;
         }
 
     }
