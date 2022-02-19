@@ -66,7 +66,8 @@ namespace v2cshtml.Services
                 try
                 {
                     ValidateCsvColumnGroomData(ext, file1, 1);
-                }catch(Exception e)
+                }
+                catch(Exception e)
                 {
                     vfrm.Success = false;
                     vfrm.ErrorMessage += e.Message;
@@ -119,6 +120,8 @@ namespace v2cshtml.Services
                             {
                                 var records = csvReader.GetRecords<CsvTransactionItem>().ToList();
                                 records[0].Amount = GroomColumns("amount", records[0].Amount, 1);
+
+                                AssertColumns("transactionid", records[0].TransactionId, 1);
                                 lsCsv.Add(records[0]);
                             }
                         }
@@ -156,6 +159,20 @@ namespace v2cshtml.Services
                 }
             }
             return ret;
+        }
+
+        public void AssertColumns(string columnName, string oriValue, int assertLevel = 0)
+        {
+            int ASSERT_MAX_TRXID_LEN = 50;
+            if(assertLevel > 0)
+            {
+                if(columnName.ToLower() == "transactionid" 
+                    && oriValue.Length > ASSERT_MAX_TRXID_LEN)
+                {
+                    throw new Exception("Transaction Id cannot be more than 50 characters!");
+                }
+            }
+            //more asserts to be implemented on : amount format, currency iso 4217, date validation, no future date time by UTC, status enumeration
         }
 
     }
