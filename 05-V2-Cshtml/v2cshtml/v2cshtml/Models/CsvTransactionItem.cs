@@ -1,8 +1,9 @@
 ﻿using CsvHelper.Configuration.Attributes;
+using Darren.Base;
 
 namespace v2cshtml.Services
 {
-    public class CsvTransactionItem
+    public class CsvTransactionItem : CsvTransactionItemBase
     {
         [Index(0)]
         public string TransactionId { get; set; }

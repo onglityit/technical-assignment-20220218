@@ -43,5 +43,5 @@ Other Assumptions:
 1. the production considerations serve as a discussion
 1. azure functions technology is used due its serverless nature. azure function can be triggered by azure queue 
 1. azure function based on queue, and on-demand cloud resource as compared to webjob always-on cloud resource, therefore azure functions is chosen.
-1. original transaction dates are not required to be stored in db. Instead, the datetime are stored in db column with one single format only.
-
+1. for those good file, original transaction dates are not required to be stored in db. Instead, the datetime are stored in db column with one single format only.
+1. for bad files, original transaction dates format are in-tact so when troubleshooting, the erroneous format can be seen
