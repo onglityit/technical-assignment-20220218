@@ -35,7 +35,7 @@ Overall flow:
 1. good-file generally get stored in Transaction
 
 ERD Descriptions:
-1. ProcessingStageCsv, ProcessingStageXml, TransactionRecord, 
+1. TransactionRecord, 
 1. DirtyFile, DirtyRecordXml, DirtyRecordCsv
 
 Other Assumptions:
