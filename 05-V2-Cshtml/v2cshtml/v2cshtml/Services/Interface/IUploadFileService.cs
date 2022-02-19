@@ -2,6 +2,6 @@
 {
     public interface IUploadFileService
     {
-        public Task<String> WriteToStorageReturnUri(String fileName, bool isGoodFile, IFormFile file1);
+        public Task<String> WriteToStorageReturnUri(String fileName, bool isGoodFile, IFormFile file1, bool isDisabled = false);
     }
 }

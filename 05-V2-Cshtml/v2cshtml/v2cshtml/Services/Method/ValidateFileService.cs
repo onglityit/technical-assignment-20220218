@@ -23,7 +23,7 @@ namespace v2cshtml.Services
             vfrm = ValidateSize(vfrm, file1);
             vfrm = ValidateCsvColumn(ext, vfrm, file1);
             String fileguid1 = Guid.NewGuid().ToString() + "." + ext;
-            String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, vfrm.Success, file1);
+            String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, vfrm.Success, file1, true);
             return vfrm;
         }
         public ValidateFileResponseModel ValidateFileExt(String ext, IFormFile file1)
@@ -68,6 +68,7 @@ namespace v2cshtml.Services
                     var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                     {
                         HasHeaderRecord = false,
+                        Delimiter = ",",
                     };
                     using (var reader = new StreamReader(file1.OpenReadStream()))
                     using (var csv = new CsvReader(reader, config))

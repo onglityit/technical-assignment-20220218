@@ -16,17 +16,20 @@ namespace v2cshtml.Services.Method
             iStorage = _iStorage;
         }
 
-        public async Task<String> WriteToStorageReturnUri(String fileName, bool isGoodFile, IFormFile file1)
+        public async Task<String> WriteToStorageReturnUri(String fileName, bool isGoodFile, IFormFile file1, bool isDisabled = false)
         {
             String blobFolderPath = isGoodFile ? GOOD_FILE_FOLDER : BAD_FILE_FOLDER;
             String returnUri = String.Empty;
-            using (var ms = new MemoryStream())
+            if (!isDisabled)
             {
-                file1.CopyTo(ms);
-                byte[] fileByte = ms.ToArray();
-                returnUri = await iStorage.WriteToBlob(fileName,
-                                                       blobFolderPath,
-                                                       fileByte);
+                using (var ms = new MemoryStream())
+                {
+                    file1.CopyTo(ms);
+                    byte[] fileByte = ms.ToArray();
+                    returnUri = await iStorage.WriteToBlob(fileName,
+                                                           blobFolderPath,
+                                                           fileByte);
+                }
             }
             return returnUri;
         }
