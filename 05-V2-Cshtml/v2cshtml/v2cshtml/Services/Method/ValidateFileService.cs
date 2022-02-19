@@ -10,6 +10,11 @@ namespace v2cshtml.Services
     {
         private readonly int MAX_FILE_SIZE = 1024 * 1024;
         private readonly String[] SUPPORTED_EXTENSIONS = { "CSV", "XML" };
+        private readonly IUploadFileService iupload;
+        public ValidateFileService(IUploadFileService _iupload)
+        {
+            iupload = _iupload;
+        }
 
         public async Task<ValidateFileResponseModel> ValidateFile(IFormFile file1)
         {
@@ -17,6 +22,8 @@ namespace v2cshtml.Services
             ValidateFileResponseModel vfrm = ValidateFileExt(ext, file1);
             vfrm = ValidateSize(vfrm, file1);
             vfrm = ValidateCsvColumn(ext, vfrm, file1);
+            String fileguid1 = Guid.NewGuid().ToString() + "." + ext;
+            String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, vfrm.Success, file1);
             return vfrm;
         }
         public ValidateFileResponseModel ValidateFileExt(String ext, IFormFile file1)
