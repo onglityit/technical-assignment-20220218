@@ -16,9 +16,4 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Services\Interface\" />
-    <Folder Include="Services\Method\" />
-  </ItemGroup>
 </Project>
