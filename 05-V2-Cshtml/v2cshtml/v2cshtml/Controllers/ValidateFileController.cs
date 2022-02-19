@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using v2cshtml.Models;
 using v2cshtml.Services;
+using v2cshtml.Services.Interface;
 
 namespace v2cshtml.Controllers
 {
     public class ValidateFileController : Controller
     {
+        private IValidateFileService vfs;
+        public ValidateFileController(IValidateFileService _vfs)
+        {
+            vfs = _vfs;
+        }
         public IActionResult Index()
         {
             return View();
@@ -16,11 +22,7 @@ namespace v2cshtml.Controllers
         [HttpPost("ValidateFile")]
         public async Task<IActionResult> ValidateFile(IFormFile file1)
         {
-            ValidateFileService vfs = new ValidateFileService()
-            {
-                file1 = file1,
-            };
-            ValidateFileResponseModel vfrm = vfs.ValidateFile();
+            ValidateFileResponseModel vfrm = await vfs.ValidateFile(file1);
             if (!vfrm.Success)
             {
 

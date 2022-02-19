@@ -9,7 +9,7 @@ namespace v2cshtml.Services.Method
         public String FileExtension { get; set; }
         private readonly IStorageManager iStorage;
 
-        public UploadFileService(StorageManager _iStorage)
+        public UploadFileService(IStorageManager _iStorage)
         {
             iStorage = _iStorage;
         }

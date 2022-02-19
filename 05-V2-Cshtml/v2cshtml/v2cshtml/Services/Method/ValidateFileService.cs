@@ -2,24 +2,24 @@
 using CsvHelper.Configuration;
 using System.Globalization;
 using v2cshtml.Models;
+using v2cshtml.Services.Interface;
 
 namespace v2cshtml.Services
 {
-    public class ValidateFileService
+    public class ValidateFileService : IValidateFileService
     {
-        public IFormFile file1 { get; set; }
         private readonly int MAX_FILE_SIZE = 1024 * 1024;
         private readonly String[] SUPPORTED_EXTENSIONS = { "CSV", "XML" };
 
-        public ValidateFileResponseModel ValidateFile()
+        public async Task<ValidateFileResponseModel> ValidateFile(IFormFile file1)
         {
             String ext = file1.FileName.Split('.').Last().ToUpper();
-            ValidateFileResponseModel vfrm = ValidateFileExt(ext);
-            vfrm = ValidateSize(vfrm);
-            vfrm = ValidateCsvColumn(ext, vfrm);
+            ValidateFileResponseModel vfrm = ValidateFileExt(ext, file1);
+            vfrm = ValidateSize(vfrm, file1);
+            vfrm = ValidateCsvColumn(ext, vfrm, file1);
             return vfrm;
         }
-        public ValidateFileResponseModel ValidateFileExt(String ext)
+        public ValidateFileResponseModel ValidateFileExt(String ext, IFormFile file1)
         {
             ValidateFileResponseModel vfrm = new ValidateFileResponseModel()
             {
@@ -39,7 +39,7 @@ namespace v2cshtml.Services
             return vfrm;
         }
 
-        public ValidateFileResponseModel ValidateSize(ValidateFileResponseModel vfrm)
+        public ValidateFileResponseModel ValidateSize(ValidateFileResponseModel vfrm, IFormFile file1)
         {
             if (file1 == null || file1.Length == 0)
             {
@@ -53,7 +53,7 @@ namespace v2cshtml.Services
             }
             return vfrm;
         }
-        public ValidateFileResponseModel ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm) { 
+        public ValidateFileResponseModel ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
             if(file1 != null && ext == "CSV")
             {
                 try
