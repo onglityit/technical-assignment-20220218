@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using v2cshtml.Models.alpha;
@@ -15,11 +16,15 @@ namespace v2cshtml.Controllers
         [HttpPost("Alpha")]
         public async Task<IActionResult> Alpha(IFormFile file1)
         {
-            List<CsvIdName> ret = new List<CsvIdName>();
-            using (var reader = new StreamReader(file1.OpenReadStream()))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            List<ColByColTest> ret = new List<ColByColTest>();
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                ret = csv.GetRecords<CsvIdName>().ToList();
+                HasHeaderRecord = false,
+            };
+            using (var reader = new StreamReader(file1.OpenReadStream()))
+            using (var csv = new CsvReader(reader, config))
+            {
+                ret = csv.GetRecords<ColByColTest>().ToList();
             }
             return Ok(ret);        
         }
