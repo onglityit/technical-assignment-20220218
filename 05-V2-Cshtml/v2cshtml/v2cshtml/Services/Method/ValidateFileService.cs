@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using v2cshtml.Models;
 using v2cshtml.Services.Interface;
 
@@ -61,20 +62,12 @@ namespace v2cshtml.Services
             return vfrm;
         }
         public ValidateFileResponseModel ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
+
             if(file1 != null && ext == "CSV")
             {
                 try
                 {
-                    var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-                    {
-                        HasHeaderRecord = false,
-                        Delimiter = ",",
-                    };
-                    using (var reader = new StreamReader(file1.OpenReadStream()))
-                    using (var csv = new CsvReader(reader, config))
-                    {
-                        var records = csv.GetRecords<CsvTransactionItem>().ToList();
-                    }
+                    ValidateCsvColumnGroomData(ext, file1, 1);
                 }catch(Exception e)
                 {
                     vfrm.Success = false;
@@ -83,5 +76,54 @@ namespace v2cshtml.Services
             }
             return vfrm;
         }
+        public void ValidateCsvColumnGroomData(String ext, IFormFile file1, int dataGroomingLevel = 0)
+        {
+            if(dataGroomingLevel == 0)
+            {
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    HasHeaderRecord = false,
+                    Delimiter = ",",
+                };
+                using (var reader = new StreamReader(file1.OpenReadStream()))
+                using (var csv = new CsvReader(reader, config))
+                {
+                    var records = csv.GetRecords<CsvTransactionItem>().ToList();
+                }
+            }
+            if(dataGroomingLevel > 0)
+            {
+                if (dataGroomingLevel == 1)
+                {
+                    using (var reader = new StreamReader(file1.OpenReadStream()))
+                    {
+                        while (reader.Peek() >= 0)
+                        {
+                            string theLine = reader.ReadLine();
+                            //replace unicode quote and comma
+                            theLine = theLine.Replace("“", "\"");
+                            theLine = theLine.Replace("”" , "\"");
+                            theLine = theLine.Replace("，", ",");
+                            //remove whitespace between quote and comma
+                            theLine = Regex.Replace(theLine, "[\"][\\s]+[,]", "\",");
+                            theLine = Regex.Replace(theLine, "[,][\\s]+[\"]", ",\"");
+
+                            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                            {
+                                HasHeaderRecord = false,
+                                Delimiter = ",",
+                            };
+                            using (var lineReader = new StringReader(theLine))
+                            using (var csvReader = new CsvReader(lineReader, config))
+                            {
+                                var records = csvReader.GetRecords<CsvTransactionItem>().ToList();
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
     }
 }
