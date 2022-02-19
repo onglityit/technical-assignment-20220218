@@ -1,7 +1,10 @@
-﻿namespace v2cshtml.Middleware.Interface
+﻿using v2cshtml.Services;
+
+namespace v2cshtml.Middleware.Interface
 {
     public interface IStorageManager
     {
-        Task<string> WriteTo(string fileName, string content);
+        Task<String> WriteTo(String fileName, String content);
+        Task<String> WriteToBlob(String fileName, String folderPath, Byte[] fileByte);
     }
 }

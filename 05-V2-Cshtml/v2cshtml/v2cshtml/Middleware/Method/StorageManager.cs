@@ -1,6 +1,10 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using CsvHelper;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System.Globalization;
+using System.Linq;
 using v2cshtml.Middleware.Interface;
+using v2cshtml.Services;
 
 namespace v2cshtml.Middleware.Method
 {
@@ -10,11 +14,14 @@ namespace v2cshtml.Middleware.Method
         private CloudStorageAccount account;
         private CloudBlobClient cloudBlobClient;
         private CloudBlobContainer container;
+        private readonly String BAD_FILE_FOLDER = "bad-file";
+        private readonly String GOOD_FILE_FOLDER = "good-file";
+
         public StorageManager(IConfiguration _config)
         {
             config = _config;
-            string blobStorageConnString = _config["AzureBlobStorage:ConnectionString"].ToString();
-            string containerName = _config["AzureBlobStorage:ContainerName"].ToString();
+            String blobStorageConnString = _config["AzureBlobStorage:ConnectionString"].ToString();
+            String containerName = _config["AzureBlobStorage:ContainerName"].ToString();
             if (CloudStorageAccount.TryParse(blobStorageConnString, out account))
             {
                 cloudBlobClient = account.CreateCloudBlobClient();
@@ -22,9 +29,26 @@ namespace v2cshtml.Middleware.Method
             }
         }
 
-        Task<string> IStorageManager.WriteTo(string fileName, string content)
+        public async Task<String> WriteTo(String fileName, String content)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<String> WriteToBlob(String fileName, String folderPath, Byte[] fileByte)
+        {
+            if (!await container.ExistsAsync())
+            {
+                await container.CreateAsync();
+                BlobContainerPermissions permissions = new BlobContainerPermissions
+                {
+                    PublicAccess = BlobContainerPublicAccessType.Blob
+                };
+                await container.SetPermissionsAsync(permissions);
+            }
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
+            await blockBlob.UploadFromByteArrayAsync(fileByte,0,fileByte.Length);
+            return blockBlob.Uri.AbsoluteUri;
+
         }
     }
 }
