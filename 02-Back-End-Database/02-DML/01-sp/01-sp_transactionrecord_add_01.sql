@@ -9,20 +9,22 @@
 -- This block of comments will not be included in
 -- the definition of the procedure.
 -- ================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 -- =============================================
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
+DROP PROCEDURE IF EXISTS sp_transactionrecord_add_01 ;
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE sp_transactionrecord_add_01 
 	-- Add the parameters for the stored procedure here
 	@fileguid nvarchar(32),
 	@linenumber int,
 	@bloburi nvarchar(500),
+	@blobextension varchar(5),
 	@transactionid nvarchar(50),
 	@amount decimal,
 	@currencycode nchar(3),
@@ -36,6 +38,30 @@ BEGIN
 	SET NOCOUNT ON;
 	DECLARE @ret_is_success INT = 0;
 	DECLARE @ret_err_msg VARCHAR(50) = '';
+	IF NOT EXISTS(
+	SELECT 1 FROM [dbo].[fileblobdata] WHERE 
+	@fileguid = fileguid
+	)
+	BEGIN
+		INSERT INTO [dbo].[fileblobdata] (
+			fileguid		,
+			bloburi			,
+			blobextension	,
+			goodbadstatus
+		)
+		SELECT 
+			@fileguid		 fileguid		  ,
+			@bloburi		 bloburi		  ,
+			@blobextension	 blobextension	  ,
+			1				 goodbadstatus
+	END
+	ELSE BEGIN
+		SET @ret_is_success = 1;
+		IF @istest = 1 
+		BEGIN
+			SET @ret_err_msg = @ret_err_msg + 'Skipped Insert fileblobdata due to test. ';
+		END
+	END 
 
 	IF NOT EXISTS(
 	SELECT 1 FROM [dbo].[transactionrecord] WHERE 
@@ -45,7 +71,6 @@ BEGIN
 		INSERT INTO [dbo].[transactionrecord] (
 			fileguid		,
 			linenumber		,
-			bloburi			,
 			transactionid	,
 			amount			,
 			currencycode	,
@@ -55,27 +80,27 @@ BEGIN
 		SELECT 
 			@fileguid		 fileguid		  ,
 			@linenumber		 linenumber		  ,
-			@bloburi		 bloburi		  ,
 			@transactionid	 transactionid	  ,
 			@amount			 amount			  ,
 			@currencycode	 currencycode	  ,
 			@transactiondate transactiondate  ,
 			@statuscode		 statuscode		
+		SET @ret_is_success = 1;
 	END
 	ELSE BEGIN
 
 		SET @ret_is_success = 1;
 		IF @istest = 1 
 		BEGIN
-			SET @ret_err_msg = 'Skipped Insert due to test';
+			SET @ret_err_msg = @ret_err_msg + 'Skipped Insert transactionrecord due to test. ';
 		END
 		ELSE BEGIN
-			SET @ret_err_msg = 'Skipped Insert due to duplicate';
+			SET @ret_err_msg = @ret_err_msg + 'Skipped Insert transactionrecord due to duplicate. ';
 		END
 
 	END 
 
     -- Insert statements for procedure here
-	SELECT 1 [is_success]
+	SELECT @ret_is_success [is_success], @ret_err_msg [err_msg]
 END
 GO
