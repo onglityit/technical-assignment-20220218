@@ -1,0 +1,5 @@
+MVP : to have an file upload box select file
+
+Security : Request token upon login
+
+Nive to have : html5 drag drop upload, upload progress bar

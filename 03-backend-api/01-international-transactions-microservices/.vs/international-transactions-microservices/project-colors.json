@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "577a279d-fa64-4e61-b2cc-0acd20aa99ae": {
+      "ProjectGuid": "577a279d-fa64-4e61-b2cc-0acd20aa99ae",
+      "DisplayName": "validator-api",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
