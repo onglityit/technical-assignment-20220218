@@ -22,9 +22,7 @@ namespace v2cshtml.Services
             String ext = file1.FileName.Split('.').Last().ToUpper();
             ValidateFileResponseModel vfrm = ValidateFileExt(ext, file1);
             vfrm = ValidateSize(vfrm, file1);
-            vfrm = ValidateCsvColumn(ext, vfrm, file1);
-            String fileguid1 = Guid.NewGuid().ToString() + "." + ext;
-            String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, vfrm.Success, file1, true);
+            vfrm = await ValidateCsvColumn(ext, vfrm, file1);
             return vfrm;
         }
         public ValidateFileResponseModel ValidateFileExt(String ext, IFormFile file1)
@@ -61,7 +59,7 @@ namespace v2cshtml.Services
             }
             return vfrm;
         }
-        public ValidateFileResponseModel ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
+        public async Task<ValidateFileResponseModel> ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
 
             if(file1 != null && ext == "CSV")
             {
@@ -76,8 +74,9 @@ namespace v2cshtml.Services
             }
             return vfrm;
         }
-        public void ValidateCsvColumnGroomData(String ext, IFormFile file1, int dataGroomingLevel = 0)
+        public async Task ValidateCsvColumnGroomData(String ext, IFormFile file1, int dataGroomingLevel = 0)
         {
+            String fileguid1 = Guid.NewGuid().ToString() + "." + ext;
             if(dataGroomingLevel == 0)
             {
                 var config = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -90,9 +89,11 @@ namespace v2cshtml.Services
                 {
                     var records = csv.GetRecords<CsvTransactionItem>().ToList();
                 }
+                String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, true, file1);
             }
             if(dataGroomingLevel > 0)
             {
+                List<CsvTransactionItem> lsCsv = new List<CsvTransactionItem>();
                 if (dataGroomingLevel == 1)
                 {
                     using (var reader = new StreamReader(file1.OpenReadStream()))
@@ -117,9 +118,27 @@ namespace v2cshtml.Services
                             using (var csvReader = new CsvReader(lineReader, config))
                             {
                                 var records = csvReader.GetRecords<CsvTransactionItem>().ToList();
+                                lsCsv.Append(records[0]);
                             }
                         }
+                        //after go through data grooming then upload to good-file in grommed format
 
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                            {
+                                HasHeaderRecord = false,
+                                Delimiter = ",",
+                            };
+                            using (var streamWriter = new StreamWriter(memoryStream))
+                            using (var csvWriter = new CsvWriter(streamWriter, config))
+                            {
+                                csvWriter.WriteRecords<CsvTransactionItem>(lsCsv);
+                            }
+
+                            byte[] fileByte = memoryStream.ToArray();
+                            String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, true, fileByte);
+                        }
                     }
                 }
             }

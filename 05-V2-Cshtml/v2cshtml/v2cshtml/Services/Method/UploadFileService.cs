@@ -33,5 +33,17 @@ namespace v2cshtml.Services.Method
             }
             return returnUri;
         }
+        public async Task<String> WriteToStorageReturnUri(String fileName, bool isGoodFile, byte[] fileByte, bool isDisabled = false)
+        {
+            String blobFolderPath = isGoodFile ? GOOD_FILE_FOLDER : BAD_FILE_FOLDER;
+            String returnUri = String.Empty;
+            if (!isDisabled)
+            {
+                returnUri = await iStorage.WriteToBlob(fileName,
+                                                        blobFolderPath,
+                                                        fileByte);
+            }
+            return returnUri;
+        }
     }
 }
