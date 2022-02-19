@@ -2,6 +2,12 @@
 
 This is a CSHTML Web Application to upload International Transaction Data for Currencies
 
+Third Party Tools To Install:
+1. Azurite Emulator
+1. MS SQL Express 2019
+1. MS SQL Management Studio
+1. 
+
 How to run this project:
 1. use Visual Stido 2022, open 05-V2-Cshtml/v2cshtml/v2cshtml.sln
 1. ensure that v2cshtml project is set as default project

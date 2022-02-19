@@ -12,9 +12,11 @@ namespace v2cshtml.Services
         private readonly int MAX_FILE_SIZE = 1024 * 1024;
         private readonly String[] SUPPORTED_EXTENSIONS = { "CSV", "XML" };
         private readonly IUploadFileService iupload;
-        public ValidateFileService(IUploadFileService _iupload)
+        private readonly IEnqueueService iqueue;
+        public ValidateFileService(IUploadFileService _iupload, IEnqueueService _iqueue)
         {
             iupload = _iupload;
+            iqueue = _iqueue;
         }
 
         public async Task<ValidateFileResponseModel> ValidateFile(IFormFile file1)
@@ -141,7 +143,8 @@ namespace v2cshtml.Services
                             }
 
                             byte[] fileByte = memoryStream.ToArray();
-                            String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, true, fileByte);
+                            string uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, true, fileByte);
+                            bool queueResponse = await iqueue.EnqueueFile(uploadUri,file1.FileName, ext, true);
                         }
                     }
                 }

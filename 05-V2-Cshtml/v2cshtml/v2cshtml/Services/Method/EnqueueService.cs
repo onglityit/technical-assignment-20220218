@@ -30,7 +30,7 @@ namespace v2cshtml.Services.Method
             }
             try
             {
-                iqm.WriteToQueue(queueName, new
+                string queueResponse = await iqm.WriteToQueue(queueName, new
                 {
                     fileUri = fileUri,
                     oriFilename = oriFilename,
