@@ -39,6 +39,7 @@ namespace FunctionCsvXmlBlobTrigger
                     ExpandLineItemCSV ecsv = new ExpandLineItemCSV();
                     List<CsvTransactionItemBase> lsCsv = await ecsv.GetCsvRows(myBlob);
                     RecordInsertionService rec = new RecordInsertionService(config);
+                    await rec.InsertCsvItems(lsCsv, blobName, blobExtension, uri.ToString());
 
                 }
             }

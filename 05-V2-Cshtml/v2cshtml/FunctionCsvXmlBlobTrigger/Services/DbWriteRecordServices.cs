@@ -19,7 +19,8 @@ namespace FunctionCsvXmlBlobTrigger.Services
         public async Task<string> sp_transactionrecord_add_01(
             string fileguid ,
             int linenumber ,
-            string bloburi ,
+            string bloburi , 
+            string blobextension,
             string transactionid ,
             decimal amount ,
             string currencycode ,
@@ -42,6 +43,7 @@ namespace FunctionCsvXmlBlobTrigger.Services
                     cmd.Parameters.Add(new SqlParameter("@fileguid", SqlDbType.NVarChar) { Value = fileguid });
                     cmd.Parameters.Add(new SqlParameter("@linenumber", SqlDbType.Int) { Value = linenumber });
                     cmd.Parameters.Add(new SqlParameter("@bloburi", SqlDbType.NVarChar) { Value = bloburi });
+                    cmd.Parameters.Add(new SqlParameter("@blobextension", SqlDbType.NVarChar) { Value = blobextension });
                     cmd.Parameters.Add(new SqlParameter("@transactionid", SqlDbType.NVarChar) { Value = transactionid });
                     cmd.Parameters.Add(new SqlParameter("@amount", SqlDbType.Decimal) { Value = amount });
                     cmd.Parameters.Add(new SqlParameter("@currencycode", SqlDbType.NChar) { Value = currencycode });
