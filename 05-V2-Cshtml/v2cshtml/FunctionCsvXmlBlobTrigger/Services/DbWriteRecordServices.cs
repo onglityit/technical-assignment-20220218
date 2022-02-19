@@ -25,7 +25,7 @@ namespace FunctionCsvXmlBlobTrigger.Services
             string currencycode ,
             DateTime transactiondate ,
             string statuscode ,
-            bool istest = false
+            int istest = 0
             )
         {
             string ret = string.Empty;
@@ -46,8 +46,8 @@ namespace FunctionCsvXmlBlobTrigger.Services
                     cmd.Parameters.Add(new SqlParameter("@amount", SqlDbType.Decimal) { Value = amount });
                     cmd.Parameters.Add(new SqlParameter("@currencycode", SqlDbType.NChar) { Value = currencycode });
                     cmd.Parameters.Add(new SqlParameter("@transactiondate", SqlDbType.DateTime2) { Value = transactiondate });
-                    cmd.Parameters.Add(new SqlParameter("@PASSWORD", SqlDbType.NVarChar) { Value = statuscode });
-                    cmd.Parameters.Add(new SqlParameter("@PASSWORD", SqlDbType.Int) { Value = 0 });
+                    cmd.Parameters.Add(new SqlParameter("@statuscode", SqlDbType.NVarChar) { Value = statuscode });
+                    cmd.Parameters.Add(new SqlParameter("@istest", SqlDbType.Int) { Value = istest });
 
                     SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -58,7 +58,7 @@ namespace FunctionCsvXmlBlobTrigger.Services
                 }
                 catch (Exception ex)
                 {
-                    log.LogInformation(ex.Message);
+                    //log.LogInformation(ex.Message);
 
                 }
             }
