@@ -34,6 +34,7 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 builder.Services.AddScoped<ITransactionBusinessLogic, TransactionBusinessLogic>();
+builder.Services.AddScoped<IDbQueryService, DbQueryService>();
 
 var app = builder.Build();
 

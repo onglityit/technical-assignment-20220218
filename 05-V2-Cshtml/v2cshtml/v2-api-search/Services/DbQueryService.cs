@@ -1,10 +1,11 @@
 ﻿using Darren.Base.Model;
 using System.Data;
 using System.Data.SqlClient;
+using v2_api_search.Services.Interface;
 
 namespace v2_api_search.Services
 {
-    public class DbQueryService
+    public class DbQueryService : IDbQueryService
     {
         private readonly IConfiguration config;
         public DbQueryService(IConfiguration _config)

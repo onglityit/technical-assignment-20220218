@@ -15,7 +15,7 @@ namespace v2_api_search.Controllers
         private readonly IEnumerable<UserCredential> tempUsers = new List<UserCredential>() { new UserCredential()
             {
                 UserName = "a",
-                Password = "B5c#de4f"
+                Password = "b"
             } 
         };
         public AuthController(JwtSettings _jwtSettings)
