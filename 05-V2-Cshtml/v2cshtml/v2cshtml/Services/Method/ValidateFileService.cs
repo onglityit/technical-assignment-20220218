@@ -1,8 +1,12 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Darren.Base.Model;
+using Darren.Base.Model.XmlModel;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Serialization;
 using v2cshtml.Models;
 using v2cshtml.Services.Interface;
 
@@ -25,7 +29,13 @@ namespace v2cshtml.Services
             String ext = file1.FileName.Split('.').Last().ToUpper();
             ValidateFileResponseModel vfrm = ValidateFileExt(ext, file1);
             vfrm = ValidateSize(vfrm, file1);
-            vfrm = await ValidateCsvColumn(ext, vfrm, file1);
+            if (ext == ConstValues.CSV)
+            {
+                vfrm = await ValidateCsvColumn(ext, vfrm, file1);
+            }else if (ext == ConstValues.XML)
+            {
+                vfrm = await ValidateXmlColumn(ext, vfrm, file1);
+            }
             return vfrm;
         }
         public ValidateFileResponseModel ValidateFileExt(String ext, IFormFile file1)
@@ -64,11 +74,11 @@ namespace v2cshtml.Services
         }
         public async Task<ValidateFileResponseModel> ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
 
-            if(file1 != null && ext == "CSV")
+            if(file1 != null && ext == ConstValues.CSV)
             {
                 try
                 {
-                    ValidateCsvColumnGroomData(ext, file1, 1);
+                    await ValidateColumnGroomData(ext, file1, 1);
                 }
                 catch(Exception e)
                 {
@@ -78,9 +88,85 @@ namespace v2cshtml.Services
             }
             return vfrm;
         }
-        public async Task ValidateCsvColumnGroomData(String ext, IFormFile file1, int dataGroomingLevel = 0)
+        public async Task<ValidateFileResponseModel> ValidateXmlColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
+
+            if(file1 != null && ext == ConstValues.XML)
+            {
+                try
+                {
+                    await ValidateColumnGroomData(ext, file1, 1);
+                }
+                catch(Exception e)
+                {
+                    vfrm.Success = false;
+                    vfrm.ErrorMessage += e.Message;
+                }
+            }
+            return vfrm;
+        }
+        public async Task ValidateColumnGroomData(String ext, IFormFile file1, int dataGroomingLevel = 0)
         {
             String fileguid1 = Guid.NewGuid().ToString() + "." + ext;
+            if (ext == ConstValues.CSV) await ValidateCsvColumnGroomData(fileguid1, ext, file1, dataGroomingLevel);
+            else /* if (ext == ConstValues.XML) */ await ValidateXmlColumnGroomData(fileguid1, ext, file1, dataGroomingLevel);
+        }
+        public async Task ValidateXmlColumnGroomData(String fileguid1, String ext, IFormFile file1, int dataGroomingLevel = 0)
+        {
+            if(dataGroomingLevel > 0)
+            {
+                string wholeXml = string.Empty;
+                var result = new StringBuilder();
+                using (var reader = new StreamReader(file1.OpenReadStream()))
+                {
+                    while (reader.Peek() >= 0)
+                    {
+                        string theLine = reader.ReadLine();
+                        //replace unicode quote and bracket
+                        theLine = theLine.Replace("“", "\"");
+                        theLine = theLine.Replace("”", "\"");
+                        theLine = theLine.Replace("《", "<");
+                        theLine = theLine.Replace("》", ">");
+                        result.AppendLine(theLine);
+                    }
+                    wholeXml = result.ToString();
+                }
+
+                if (string.IsNullOrWhiteSpace(wholeXml))
+                {
+                    throw new Exception("Wrong xml file format. ");
+                }
+                else
+                {
+                    XmlRootAttribute xRoot = new XmlRootAttribute();
+                    xRoot.ElementName = "Transactions";
+                    xRoot.IsNullable = true;
+
+                    var serializer = new XmlSerializer(typeof(TransactionsXML), xRoot);
+                    StringReader reader = new StringReader(wholeXml);
+                    using (XmlReader xmlReader = XmlReader.Create(reader))
+                    {
+                        TransactionsXML resultObj = (TransactionsXML)serializer.Deserialize(xmlReader);
+                        if (resultObj != null) { 
+                            foreach (TransactionXML tran in resultObj.Transaction)
+                            {
+                                tran.PaymentDetails.Amount = GroomColumns("amount", tran.PaymentDetails.Amount, 1);
+                                AssertColumns("transactionid", tran.Id, 1);
+                            }
+                            using (var memStream = new MemoryStream())
+                            {
+                                serializer.Serialize(memStream, resultObj);
+                                byte[] filebyte = memStream.ToArray();
+                                String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, true, filebyte);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        public async Task ValidateCsvColumnGroomData(String fileguid1, String ext, IFormFile file1, int dataGroomingLevel = 0)
+        {
             if(dataGroomingLevel == 0)
             {
                 var config = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -154,12 +240,20 @@ namespace v2cshtml.Services
 
         public string GroomColumns(string columnName, string oriValue, int groomLevel = 0)
         {
-            string ret = string.Empty;
+            string ret = oriValue;
             if (groomLevel > 0)
             {
                 if (columnName.ToLower() == "amount")
                 {
                     ret = oriValue.Replace(",", string.Empty);
+                }
+                else if (columnName.ToLower() == "status")
+                {
+                    if(oriValue.ToUpper() == "APPROVED" ) ret = oriValue.ToUpper().Replace("APPROVED", "A");
+                    if(oriValue.ToUpper() == "FAILED"   ) ret = oriValue.ToUpper().Replace("FAILED"  , "R");
+                    if(oriValue.ToUpper() == "REJECTED" ) ret = oriValue.ToUpper().Replace("REJECTED", "R");
+                    if(oriValue.ToUpper() == "FINISHED" ) ret = oriValue.ToUpper().Replace("FINISHED", "D");
+                    if(oriValue.ToUpper() == "DONE"     ) ret = oriValue.ToUpper().Replace("DONE"    , "D");
                 }
             }
             return ret;

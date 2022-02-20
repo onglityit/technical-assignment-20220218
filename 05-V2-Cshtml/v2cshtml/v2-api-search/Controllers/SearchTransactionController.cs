@@ -40,15 +40,36 @@ namespace v2_api_search.Controllers
         public async Task<IActionResult> TransactionsByDateRange([FromQuery] string dateFrom_yyyyMMddTHHmmss,
             [FromQuery] string dateTo_yyyyMMddTHHmmss)
         {
-            List<TransactionResultModel> lsTr = new List<TransactionResultModel>();
-            return Ok("a: " + dateFrom_yyyyMMddTHHmmss + " to " + dateTo_yyyyMMddTHHmmss);
+            TransactionResultListInfo lsInfo = await ibl.TransactionsByDateRange(
+                dateFrom_yyyyMMddTHHmmss, dateTo_yyyyMMddTHHmmss);
+            if (lsInfo != null
+                && !lsInfo.isSuccess)
+            {
+                return BadRequest(new
+                {
+                    isSuccess = lsInfo.isSuccess,
+                    errorMessage = lsInfo.errorMessage,
+                    data = lsInfo.lsTr
+                });
+            }
+            return Ok(lsInfo.lsTr);
         }
 
         [HttpGet("{status}")]
         public async Task<IActionResult> TransactionsByStatus([FromRoute] string status)
         {
-            List<TransactionResultModel> lsTr = new List<TransactionResultModel>();
-            return Ok("a: " + status);
+            TransactionResultListInfo lsInfo = await ibl.TransactionsByStatus(status.ToUpper());
+            if (lsInfo != null
+                && !lsInfo.isSuccess)
+            {
+                return BadRequest(new
+                {
+                    isSuccess = lsInfo.isSuccess,
+                    errorMessage = lsInfo.errorMessage,
+                    data = lsInfo.lsTr
+                });
+            }
+            return Ok(lsInfo.lsTr);
         }
 
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Darren.Base;
 using Darren.Base.Model;
+using Darren.Base.Model.XmlModel;
 using FunctionCsvXmlBlobTrigger.Services;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
@@ -37,12 +38,22 @@ namespace FunctionCsvXmlBlobTrigger
                 {
                     ExpandLineItemCSV ecsv = new ExpandLineItemCSV();
                     List<CsvTransactionItemBase> lsCsv = await ecsv.GetCsvRows(myBlob);
-                    if(lsCsv != null)
+                    if(lsCsv != null && lsCsv.Count > 0)
                     {
                         RecordInsertionService rec = new RecordInsertionService(config);
                         await rec.InsertCsvItems(lsCsv, blobName, blobExtension, uri.ToString());
                     }
 
+                }
+                else if(blobExtension.ToUpper() == ConstValues.XML)
+                {
+                    ExpandTransactionModelXml exml = new ExpandTransactionModelXml();
+                    List<TransactionXML> lsT = await exml.GetXmlArray(myBlob);
+                    if(lsT != null && lsT.Count > 0)
+                    {
+                        RecordInsertionService rec = new RecordInsertionService(config);
+                        await rec.InsertXmlItems(lsT, blobName, blobExtension, uri.ToString());
+                    }
                 }
             }
         }
