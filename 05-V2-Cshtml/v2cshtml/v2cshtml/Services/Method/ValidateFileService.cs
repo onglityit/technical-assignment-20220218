@@ -136,12 +136,16 @@ namespace v2cshtml.Services
                 }
                 else
                 {
-                    var serializer = new XmlSerializer(typeof(TransactionXML));
+                    XmlRootAttribute xRoot = new XmlRootAttribute();
+                    xRoot.ElementName = "Transactions";
+                    xRoot.IsNullable = true;
+
+                    var serializer = new XmlSerializer(typeof(TransactionsXML), xRoot);
                     StringReader reader = new StringReader(wholeXml);
-                    TransactionXML resultObj = null;
+                    TransactionsXML resultObj = null;
                     using (System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(reader))
                     {
-                        resultObj = (TransactionXML)serializer.Deserialize(xmlReader);
+                        resultObj = (TransactionsXML)serializer.Deserialize(xmlReader);
                     }
 
                 }
