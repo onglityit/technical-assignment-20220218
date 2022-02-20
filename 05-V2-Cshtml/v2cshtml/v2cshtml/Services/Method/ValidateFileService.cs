@@ -25,7 +25,13 @@ namespace v2cshtml.Services
             String ext = file1.FileName.Split('.').Last().ToUpper();
             ValidateFileResponseModel vfrm = ValidateFileExt(ext, file1);
             vfrm = ValidateSize(vfrm, file1);
-            vfrm = await ValidateCsvColumn(ext, vfrm, file1);
+            if (ext == ConstValues.CSV)
+            {
+                vfrm = await ValidateCsvColumn(ext, vfrm, file1);
+            }else if (ext == ConstValues.XML)
+            {
+
+            }
             return vfrm;
         }
         public ValidateFileResponseModel ValidateFileExt(String ext, IFormFile file1)
@@ -64,11 +70,11 @@ namespace v2cshtml.Services
         }
         public async Task<ValidateFileResponseModel> ValidateCsvColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
 
-            if(file1 != null && ext == "CSV")
+            if(file1 != null && ext == ConstValues.CSV)
             {
                 try
                 {
-                    ValidateCsvColumnGroomData(ext, file1, 1);
+                    await ValidateColumnGroomData(ext, file1, 1);
                 }
                 catch(Exception e)
                 {
@@ -78,9 +84,38 @@ namespace v2cshtml.Services
             }
             return vfrm;
         }
-        public async Task ValidateCsvColumnGroomData(String ext, IFormFile file1, int dataGroomingLevel = 0)
+        public async Task<ValidateFileResponseModel> ValidateXmlColumn(String ext, ValidateFileResponseModel vfrm, IFormFile file1) { 
+
+            if(file1 != null && ext == ConstValues.XML)
+            {
+                try
+                {
+                    await ValidateColumnGroomData(ext, file1, 1);
+                }
+                catch(Exception e)
+                {
+                    vfrm.Success = false;
+                    vfrm.ErrorMessage += e.Message;
+                }
+            }
+            return vfrm;
+        }
+        public async Task ValidateColumnGroomData(String ext, IFormFile file1, int dataGroomingLevel = 0)
         {
             String fileguid1 = Guid.NewGuid().ToString() + "." + ext;
+            if (ext == ConstValues.CSV) await ValidateCsvColumnGroomData(fileguid1, ext, file1, dataGroomingLevel);
+            else /* if (ext == ConstValues.XML) */ await ValidateXmlColumnGroomData(fileguid1, ext, file1, dataGroomingLevel);
+        }
+        public async Task ValidateXmlColumnGroomData(String fileguid1, String ext, IFormFile file1, int dataGroomingLevel = 0)
+        {
+            if(dataGroomingLevel > 0)
+            {
+
+            }
+        }
+
+        public async Task ValidateCsvColumnGroomData(String fileguid1, String ext, IFormFile file1, int dataGroomingLevel = 0)
+        {
             if(dataGroomingLevel == 0)
             {
                 var config = new CsvConfiguration(CultureInfo.InvariantCulture)
