@@ -1,3 +1,0 @@
-MVP : to have an input box username and login button
-
-Security : Request token upon login

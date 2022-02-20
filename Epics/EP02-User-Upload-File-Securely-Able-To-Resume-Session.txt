@@ -1,1 +1,0 @@
-User can upload file securely, able to resume session if files are not yet completely uploaded.

@@ -1,4 +1,5 @@
-﻿using v2cshtml.Middleware.Interface;
+﻿using Darren.Base.Model;
+using v2cshtml.Middleware.Interface;
 using v2cshtml.Middleware.Method;
 using v2cshtml.Services.Interface;
 
@@ -8,8 +9,8 @@ namespace v2cshtml.Services.Method
     {
         public String FileExtension { get; set; }
         private readonly IStorageManager iStorage;
-        private readonly String BAD_FILE_FOLDER = "bad-file/";
-        private readonly String GOOD_FILE_FOLDER = "good-file/";
+        private readonly String BAD_FILE_FOLDER = ConstValues.BAD_FILE_FOLDER;
+        private readonly String GOOD_FILE_FOLDER = ConstValues.GOOD_FILE_FOLDER;
 
         public UploadFileService(IStorageManager _iStorage)
         {
