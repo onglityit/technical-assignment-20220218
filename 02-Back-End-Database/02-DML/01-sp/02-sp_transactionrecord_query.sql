@@ -28,19 +28,21 @@ BEGIN
 	IF @querymode = 'TransactionsByCurrency' 
 	AND @value01 IS NOT NULL
 	BEGIN
-	SELECT 1 isquerysuccess, NULL errormessage, 
-	[transactionid] id, 
+	SELECT 
+							1					[isquerysuccess],	
+							NULL				[errormessage], 
+	[transactionid]								[id], 
 	CONCAT_WS(
 		' ', 
 		CONVERT(DECIMAL(10,2), [amount]), 
 		[currencycode]
-	) payment, 
-	[statuscode] [status] 
+	)											[payment], 
+	[statuscode]								[status] 
 	FROM [dbo].[transactionrecord] where 
 	[currencycode] = @value01
 	END
 	ELSE BEGIN
-	SELECT 0 isquerysuccess, 'Query mode is invalid' errormessage
+	SELECT 0 isquerysuccess, 'Query mode is invalid. ' errormessage
 	END
 END
 GO
