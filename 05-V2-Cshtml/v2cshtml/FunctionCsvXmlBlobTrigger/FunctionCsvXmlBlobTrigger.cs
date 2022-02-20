@@ -44,6 +44,10 @@ namespace FunctionCsvXmlBlobTrigger
                     }
 
                 }
+                else if(blobExtension.ToUpper() == ConstValues.XML)
+                {
+
+                }
             }
         }
     }
