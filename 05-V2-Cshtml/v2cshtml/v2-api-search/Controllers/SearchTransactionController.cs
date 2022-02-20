@@ -27,8 +27,8 @@ namespace v2_api_search.Controllers
             List<TransactionResultModel> lsTr = new List<TransactionResultModel>();
             return Ok("a: " + dateFrom_yyyyMMddTHHmmss + " to " + dateTo_yyyyMMddTHHmmss);
         }
-        [HttpGet("{status}")]
 
+        [HttpGet("{status}")]
         public async Task<IActionResult> TransactionsByStatus([FromRoute] string status)
         {
             List<TransactionResultModel> lsTr = new List<TransactionResultModel>();
