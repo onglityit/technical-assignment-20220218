@@ -10,7 +10,7 @@ namespace Darren.Base.Model.XmlModel
     [XmlRoot(ElementName = "Transaction")]
     public class TransactionXML
     {
-        [XmlAttribute(AttributeName = "Id")]
+        [XmlAttribute(AttributeName = "id")]
         public string Id { get; set; }
         [XmlElement(ElementName = "TransactionDate")]
         public string TransactionDate { get; set; }
