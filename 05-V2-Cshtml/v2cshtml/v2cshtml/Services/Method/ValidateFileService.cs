@@ -142,10 +142,16 @@ namespace v2cshtml.Services
 
                     var serializer = new XmlSerializer(typeof(TransactionsXML), xRoot);
                     StringReader reader = new StringReader(wholeXml);
-                    TransactionsXML resultObj = null;
                     using (System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(reader))
                     {
-                        resultObj = (TransactionsXML)serializer.Deserialize(xmlReader);
+                        TransactionsXML resultObj = (TransactionsXML)serializer.Deserialize(xmlReader);
+                        if (resultObj != null) { 
+                            foreach (TransactionXML tran in resultObj.Transaction)
+                            {
+                                tran.PaymentDetails.Amount = GroomColumns("amount", tran.PaymentDetails.Amount, 1);
+                                AssertColumns("transactionid", tran.Id, 1);
+                            }
+                        }
                     }
 
                 }
