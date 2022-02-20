@@ -13,5 +13,6 @@ namespace Darren.Base.Model
         public static readonly string CSV = "CSV";
         public static readonly string XML = "XML";
         public static readonly string TransactionsByCurrency = "TransactionsByCurrency";
+        public static readonly string TransactionsByStatus = "TransactionsByStatus";
     }
 }

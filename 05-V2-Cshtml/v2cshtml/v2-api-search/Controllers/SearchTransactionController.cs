@@ -41,14 +41,24 @@ namespace v2_api_search.Controllers
             [FromQuery] string dateTo_yyyyMMddTHHmmss)
         {
             List<TransactionResultModel> lsTr = new List<TransactionResultModel>();
-            return Ok("a: " + dateFrom_yyyyMMddTHHmmss + " to " + dateTo_yyyyMMddTHHmmss);
+            return Ok();
         }
 
         [HttpGet("{status}")]
         public async Task<IActionResult> TransactionsByStatus([FromRoute] string status)
         {
-            List<TransactionResultModel> lsTr = new List<TransactionResultModel>();
-            return Ok("a: " + status);
+            TransactionResultListInfo lsInfo = await ibl.TransactionsByStatus(status.ToUpper());
+            if (lsInfo != null
+                && !lsInfo.isSuccess)
+            {
+                return BadRequest(new
+                {
+                    isSuccess = lsInfo.isSuccess,
+                    errorMessage = lsInfo.errorMessage,
+                    data = lsInfo.lsTr
+                });
+            }
+            return Ok(lsInfo.lsTr);
         }
 
     }

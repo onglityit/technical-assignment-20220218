@@ -15,5 +15,10 @@ namespace v2_api_search.Services
             TransactionResultListInfo lsInfo = await idb.sp_transactionrecord_query(ConstValues.TransactionsByCurrency, currencycode, String.Empty);
             return lsInfo;
         }
+        public async Task<TransactionResultListInfo> TransactionsByStatus(string statuscode)
+        {
+            TransactionResultListInfo lsInfo = await idb.sp_transactionrecord_query(ConstValues.TransactionsByStatus, statuscode, String.Empty);
+            return lsInfo;
+        }
     }
 }
