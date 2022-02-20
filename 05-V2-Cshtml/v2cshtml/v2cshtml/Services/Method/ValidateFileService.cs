@@ -1,9 +1,12 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Darren.Base.Model;
+using Darren.Base.Model.XmlModel;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Serialization;
 using v2cshtml.Models;
 using v2cshtml.Services.Interface;
 
@@ -122,8 +125,25 @@ namespace v2cshtml.Services
                         theLine = theLine.Replace("”", "\"");
                         theLine = theLine.Replace("《", "<");
                         theLine = theLine.Replace("》", ">");
-                        result.AppendLine(reader.ReadLine());
+                        result.AppendLine(theLine);
                     }
+                }
+                string wholeXml = result.ToString();
+
+                if (string.IsNullOrWhiteSpace(wholeXml))
+                {
+                    throw new Exception("Wrong xml file format. ");
+                }
+                else
+                {
+                    var serializer = new XmlSerializer(typeof(TransactionXML));
+                    StringReader reader = new StringReader(wholeXml);
+                    TransactionXML resultObj = null;
+                    using (System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(reader))
+                    {
+                        resultObj = (TransactionXML)serializer.Deserialize(xmlReader);
+                    }
+
                 }
 
             }
