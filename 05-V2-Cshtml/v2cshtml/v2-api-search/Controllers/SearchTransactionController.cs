@@ -22,7 +22,7 @@ namespace v2_api_search.Controllers
         [HttpGet("{currencycode}")]
         public async Task<IActionResult> TransactionsByCurrency([FromRoute] string currencycode)
         {
-            TransactionResultListInfo lsInfo = await ibl.TransactionsByCurrency(currencycode);
+            TransactionResultListInfo lsInfo = await ibl.TransactionsByCurrency(currencycode.ToUpper());
             if (lsInfo != null 
                 && !lsInfo.isSuccess)
             {

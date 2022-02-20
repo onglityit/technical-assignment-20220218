@@ -30,7 +30,7 @@ namespace v2_api_search.Services
                 try
                 {
                     SqlCommand cmd = new SqlCommand();
-                    cmd.CommandText = "sp_transactionrecord_add_01";
+                    cmd.CommandText = "sp_transactionrecord_query";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = conn;
 
@@ -44,7 +44,7 @@ namespace v2_api_search.Services
                     String isSuccess = String.Empty;
                     while (reader.Read())
                     {
-                        isSuccess = reader["is_success"].ToString();
+                        isSuccess = reader["isquerysuccess"].ToString();
                         if(isSuccess == "1")
                         {
                             //errormessage
