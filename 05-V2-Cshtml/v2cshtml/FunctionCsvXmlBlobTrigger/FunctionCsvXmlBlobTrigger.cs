@@ -52,7 +52,7 @@ namespace FunctionCsvXmlBlobTrigger
                     if(lsT != null && lsT.Count > 0)
                     {
                         RecordInsertionService rec = new RecordInsertionService(config);
-
+                        await rec.InsertXmlItems(lsT, blobName, blobExtension, uri.ToString());
                     }
                 }
             }

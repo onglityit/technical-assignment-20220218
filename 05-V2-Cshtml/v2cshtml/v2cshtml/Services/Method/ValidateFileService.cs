@@ -247,17 +247,14 @@ namespace v2cshtml.Services
                 {
                     ret = oriValue.Replace(",", string.Empty);
                 }
-                //else if(columnName.ToLower() == "transactiondate")
-                //{
-                //    //caution, do use this on the XML data only
-                //    DateTime dt1 = null;
-                //    if(DateTime.TryParseExact(oriValue, "yyyy-MM-ddTHH:mm:ss", 
-                //        CultureInfo.InvariantCulture, DateTimeStyles.None, out dt1))
-                //    {
-                //        ret = oriValue.Replace()
-                //
-                //    }
-                //} 
+                else if (columnName.ToLower() == "status")
+                {
+                    if(oriValue.ToUpper() == "APPROVED" ) ret = oriValue.ToUpper().Replace("APPROVED", "A");
+                    if(oriValue.ToUpper() == "FAILED"   ) ret = oriValue.ToUpper().Replace("FAILED"  , "R");
+                    if(oriValue.ToUpper() == "REJECTED" ) ret = oriValue.ToUpper().Replace("REJECTED", "R");
+                    if(oriValue.ToUpper() == "FINISHED" ) ret = oriValue.ToUpper().Replace("FINISHED", "D");
+                    if(oriValue.ToUpper() == "DONE"     ) ret = oriValue.ToUpper().Replace("DONE"    , "D");
+                }
             }
             return ret;
         }
@@ -272,8 +269,6 @@ namespace v2cshtml.Services
                 {
                     throw new Exception("Transaction Id cannot be more than 50 characters!");
                 }
-
-                //status A R D 
             }
             //more asserts to be implemented on : amount format, currency iso 4217, date validation, no future date time by UTC, status enumeration
         }
