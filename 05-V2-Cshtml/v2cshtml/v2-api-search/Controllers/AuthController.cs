@@ -1,11 +1,13 @@
 ﻿using Darren.Base.Model.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using v2_api_search.Services;
 
 namespace v2_api_search.Controllers
 {
 
-    [Route("api/[controller]/[action]")]
+    [Route("api/v2/[controller]/[action]")]
     [ApiController]
     public class AuthController : Controller
     {
@@ -45,13 +47,6 @@ namespace v2_api_search.Controllers
             {
                 throw;
             }
-
-        }
-
-        [HttpGet("hello")]
-        public IActionResult hello()
-        {
-            return Ok("hello123");
         }
     }
 }

@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace v2_api_search.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/v2/[controller]/[action]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        
     public class SearchTransactionController : ControllerBase
     {
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{currencycode}")]
 
         public async Task<IActionResult> TransactionsByCurrency([FromRoute] string currencycode)
