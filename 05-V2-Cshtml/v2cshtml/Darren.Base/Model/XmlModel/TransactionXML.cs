@@ -12,5 +12,11 @@ namespace Darren.Base.Model.XmlModel
     {
         [XmlAttribute(AttributeName = "Id")]
         public string Id { get; set; }
+        [XmlElement(ElementName = "TransactionDate")]
+        public string TransactionDate { get; set; }
+        [XmlElement(ElementName = "PaymentDetails")]
+        public PaymentDetailsXML PaymentDetails { get; set; }
+        [XmlElement(ElementName = "Status")]
+        public string Status { get; set; }
     }
 }
