@@ -114,6 +114,7 @@ namespace v2cshtml.Services
         {
             if(dataGroomingLevel > 0)
             {
+                string wholeXml = string.Empty;
                 var result = new StringBuilder();
                 using (var reader = new StreamReader(file1.OpenReadStream()))
                 {
@@ -127,8 +128,8 @@ namespace v2cshtml.Services
                         theLine = theLine.Replace("》", ">");
                         result.AppendLine(theLine);
                     }
+                    wholeXml = result.ToString();
                 }
-                string wholeXml = result.ToString();
 
                 if (string.IsNullOrWhiteSpace(wholeXml))
                 {
@@ -142,7 +143,7 @@ namespace v2cshtml.Services
 
                     var serializer = new XmlSerializer(typeof(TransactionsXML), xRoot);
                     StringReader reader = new StringReader(wholeXml);
-                    using (System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(reader))
+                    using (XmlReader xmlReader = XmlReader.Create(reader))
                     {
                         TransactionsXML resultObj = (TransactionsXML)serializer.Deserialize(xmlReader);
                         if (resultObj != null) { 
@@ -239,13 +240,24 @@ namespace v2cshtml.Services
 
         public string GroomColumns(string columnName, string oriValue, int groomLevel = 0)
         {
-            string ret = string.Empty;
+            string ret = oriValue;
             if (groomLevel > 0)
             {
                 if (columnName.ToLower() == "amount")
                 {
                     ret = oriValue.Replace(",", string.Empty);
                 }
+                //else if(columnName.ToLower() == "transactiondate")
+                //{
+                //    //caution, do use this on the XML data only
+                //    DateTime dt1 = null;
+                //    if(DateTime.TryParseExact(oriValue, "yyyy-MM-ddTHH:mm:ss", 
+                //        CultureInfo.InvariantCulture, DateTimeStyles.None, out dt1))
+                //    {
+                //        ret = oriValue.Replace()
+                //
+                //    }
+                //} 
             }
             return ret;
         }
@@ -260,6 +272,7 @@ namespace v2cshtml.Services
                 {
                     throw new Exception("Transaction Id cannot be more than 50 characters!");
                 }
+
                 //status A R D 
             }
             //more asserts to be implemented on : amount format, currency iso 4217, date validation, no future date time by UTC, status enumeration
