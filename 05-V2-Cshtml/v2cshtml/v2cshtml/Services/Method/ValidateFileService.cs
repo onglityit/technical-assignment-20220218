@@ -151,9 +151,14 @@ namespace v2cshtml.Services
                                 tran.PaymentDetails.Amount = GroomColumns("amount", tran.PaymentDetails.Amount, 1);
                                 AssertColumns("transactionid", tran.Id, 1);
                             }
+                            using (var memStream = new MemoryStream())
+                            {
+                                serializer.Serialize(memStream, resultObj);
+                                byte[] filebyte = memStream.ToArray();
+                                String uploadUri = await iupload.WriteToStorageReturnUri(fileguid1, true, filebyte);
+                            }
                         }
                     }
-
                 }
 
             }
@@ -255,6 +260,7 @@ namespace v2cshtml.Services
                 {
                     throw new Exception("Transaction Id cannot be more than 50 characters!");
                 }
+                //status A R D 
             }
             //more asserts to be implemented on : amount format, currency iso 4217, date validation, no future date time by UTC, status enumeration
         }
