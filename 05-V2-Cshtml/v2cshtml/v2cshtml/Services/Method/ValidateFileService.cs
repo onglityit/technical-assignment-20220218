@@ -2,6 +2,7 @@
 using CsvHelper.Configuration;
 using Darren.Base.Model;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using v2cshtml.Models;
 using v2cshtml.Services.Interface;
@@ -30,7 +31,7 @@ namespace v2cshtml.Services
                 vfrm = await ValidateCsvColumn(ext, vfrm, file1);
             }else if (ext == ConstValues.XML)
             {
-
+                vfrm = await ValidateXmlColumn(ext, vfrm, file1);
             }
             return vfrm;
         }
@@ -110,6 +111,20 @@ namespace v2cshtml.Services
         {
             if(dataGroomingLevel > 0)
             {
+                var result = new StringBuilder();
+                using (var reader = new StreamReader(file1.OpenReadStream()))
+                {
+                    while (reader.Peek() >= 0)
+                    {
+                        string theLine = reader.ReadLine();
+                        //replace unicode quote and bracket
+                        theLine = theLine.Replace("“", "\"");
+                        theLine = theLine.Replace("”", "\"");
+                        theLine = theLine.Replace("《", "<");
+                        theLine = theLine.Replace("》", ">");
+                        result.AppendLine(reader.ReadLine());
+                    }
+                }
 
             }
         }
