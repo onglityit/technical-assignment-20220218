@@ -1,4 +1,6 @@
 using v2_api_search.Extensions;
+using v2_api_search.Services;
+using v2_api_search.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,8 @@ builder.Services.AddSwaggerGen(options => {
         }
     });
 });
+
+builder.Services.AddScoped<ITransactionBusinessLogic, TransactionBusinessLogic>();
 
 var app = builder.Build();
 

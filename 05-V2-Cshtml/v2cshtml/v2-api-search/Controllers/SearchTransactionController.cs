@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Darren.Base.Model;
+using v2_api_search.Services.Interface;
 
 namespace v2_api_search.Controllers
 {
@@ -12,12 +13,27 @@ namespace v2_api_search.Controllers
         
     public class SearchTransactionController : ControllerBase
     {
-        [HttpGet("{currencycode}")]
+        private readonly ITransactionBusinessLogic ibl;
+        public SearchTransactionController(ITransactionBusinessLogic _ibl)
+        {
+            ibl = _ibl;
+        }
 
+        [HttpGet("{currencycode}")]
         public async Task<IActionResult> TransactionsByCurrency([FromRoute] string currencycode)
         {
-            List<TransactionResultModel> lsTr = new List<TransactionResultModel>();
-            return Ok("a: " + currencycode);
+            TransactionResultListInfo lsInfo = await ibl.TransactionsByCurrency(currencycode);
+            if (lsInfo != null 
+                && !lsInfo.isSuccess)
+            {
+                return BadRequest(new
+                {
+                    isSuccess = lsInfo.isSuccess,
+                    errorMessage = lsInfo.errorMessage,
+                    data = lsInfo.lsTr
+                });
+            }
+            return Ok(lsInfo.lsTr);
         }
 
         [HttpGet]

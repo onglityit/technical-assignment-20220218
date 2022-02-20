@@ -30,7 +30,12 @@
       "ProjectGuid": "142559ac-db7d-44ed-be88-7a8a1cd95ab4",
       "DisplayName": "v2-api-search",
       "ColorIndex": 4
+    },
+    "a86e7b5a-0e8d-4296-b04e-73f745048d02": {
+      "ProjectGuid": "a86e7b5a-0e8d-4296-b04e-73f745048d02",
+      "DisplayName": "v2-api-search",
+      "ColorIndex": 5
     }
   },
-  "NextColorIndex": 5
+  "NextColorIndex": 6
 }
