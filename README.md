@@ -45,3 +45,6 @@ Other Assumptions:
 1. for those good file, original transaction dates are not required to be stored in db. Instead, the datetime are stored in db column with one single format only.
 1. for bad files, original transaction dates format are in-tact so when troubleshooting, the erroneous format can be seen
 1. take note that azure function local.settings.json is ignored by git
+1. cost of running in cloud is to be kept as another topic, since this project is to be run locally first
+1. JWT token issuance is done by v2-api-search, the same api that is used for query. this is against best practice. in order to achieve best practice, a centralized authentication authorization need to be used, 
+for example API Gateway with MFA.
