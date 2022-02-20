@@ -10,7 +10,27 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "c580deb8-8110-425d-a78a-b1d442008d5c": {
+      "ProjectGuid": "c580deb8-8110-425d-a78a-b1d442008d5c",
+      "DisplayName": "FunctionPollCsvGoodFile",
+      "ColorIndex": 1
+    },
+    "dec2bd46-9cd9-4ea9-9063-8daf45e8b515": {
+      "ProjectGuid": "dec2bd46-9cd9-4ea9-9063-8daf45e8b515",
+      "DisplayName": "Darren.Base",
+      "ColorIndex": 2
+    },
+    "c48d6c5f-150b-414c-82a9-6de247ae9dc5": {
+      "ProjectGuid": "c48d6c5f-150b-414c-82a9-6de247ae9dc5",
+      "DisplayName": "FunctionCsvXmlBlobTrigger",
+      "ColorIndex": 3
+    },
+    "142559ac-db7d-44ed-be88-7a8a1cd95ab4": {
+      "ProjectGuid": "142559ac-db7d-44ed-be88-7a8a1cd95ab4",
+      "DisplayName": "v2-api-search",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 5
 }
