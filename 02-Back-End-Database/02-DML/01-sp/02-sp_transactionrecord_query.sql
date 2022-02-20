@@ -25,6 +25,10 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
+
+	DECLARE @date01 DATETIME2 = NULL;
+	DECLARE @date02 DATETIME2 = NULL;
+
 	IF @querymode = 'TransactionsByCurrency' 
 	AND @value01 IS NOT NULL
 	BEGIN
@@ -40,6 +44,26 @@ BEGIN
 		[statuscode]								[status] 
 		FROM [dbo].[transactionrecord] where 
 		[currencycode] = @value01
+	END
+	ELSE IF @querymode = 'TransactionsByDateRange'
+	AND @value01 IS NOT NULL
+	AND @value02 IS NOT NULL
+	BEGIN
+		SET @date01 = CONVERT(DATETIME2, @value01, 126) 
+		SET @date02 = CONVERT(DATETIME2, @value02, 126)
+		SELECT 
+								1					[isquerysuccess],	
+								NULL				[errormessage], 
+		[transactionid]								[id], 
+		CONCAT_WS(
+			' ', 
+			CONVERT(DECIMAL(10,2), [amount]), 
+			[currencycode]
+		)											[payment], 
+		[statuscode]								[status] 
+		FROM [dbo].[transactionrecord] where 
+		[transactiondate] >= @date01		
+		AND [transactiondate] <= @date02
 	END
 	ELSE IF @querymode = 'TransactionsByStatus'
 	AND @value01 IS NOT NULL
