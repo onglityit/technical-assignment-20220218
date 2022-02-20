@@ -29,14 +29,14 @@ Overall flow:
 1. once uploaded, the blob file has a URI
 1. file URI and original file name are send to azurite queue
 1. the queue message is picked up by azure function
-1. azure function reads from one of these queues: csv-good-file, csv-bad-file, xml-bad-file, xml-good-file
-1. azure function processes the file by reading from Uri of the queue item
-1. the Uri is the csv or xml file itself, azure function process the rows in the file
-1. good-file generally get stored in Transaction
+1. azure function is triggered by new upoaded file in these blob folders: good-file, bad-file
+1. azure function process the rows in the file
+1. good-file generally get stored in Table transactionrecord
 
 ERD Descriptions:
-1. TransactionRecord, 
-1. DirtyFile, DirtyRecordXml, DirtyRecordCsv
+1. fileblobdata - contains fileguid, bloburi metadata, extension, and good/bad status
+1. transactionrecord - contains the transaction record. this is clean data
+1. badfileline - contains the lines of bad files
 
 Other Assumptions:
 1. for unknow format, the file will not be stored
@@ -44,3 +44,4 @@ Other Assumptions:
 1. log file will store the line in nvarchar(1000), longer than that it would be truncated
 1. for those good file, original transaction dates are not required to be stored in db. Instead, the datetime are stored in db column with one single format only.
 1. for bad files, original transaction dates format are in-tact so when troubleshooting, the erroneous format can be seen
+1. take note that azure function local.settings.json is ignored by git

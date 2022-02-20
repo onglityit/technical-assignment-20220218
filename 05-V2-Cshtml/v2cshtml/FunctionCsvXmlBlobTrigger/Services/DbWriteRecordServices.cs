@@ -30,7 +30,8 @@ namespace FunctionCsvXmlBlobTrigger.Services
             )
         {
             string ret = string.Empty;
-            using (var conn = new SqlConnection(config["SqlConnectionString"]))
+            string strconn = config["SqlConnectionString"];
+            using (var conn = new SqlConnection(strconn))
             {
                 try
                 {

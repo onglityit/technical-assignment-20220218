@@ -30,7 +30,6 @@ namespace FunctionCsvXmlBlobTrigger
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
-            string SqlConnectionString = config["SqlConnectionString"];
 
             if (blobTrigger.Contains("good-file"))
             {
@@ -38,8 +37,11 @@ namespace FunctionCsvXmlBlobTrigger
                 {
                     ExpandLineItemCSV ecsv = new ExpandLineItemCSV();
                     List<CsvTransactionItemBase> lsCsv = await ecsv.GetCsvRows(myBlob);
-                    RecordInsertionService rec = new RecordInsertionService(config);
-                    await rec.InsertCsvItems(lsCsv, blobName, blobExtension, uri.ToString());
+                    if(lsCsv != null)
+                    {
+                        RecordInsertionService rec = new RecordInsertionService(config);
+                        await rec.InsertCsvItems(lsCsv, blobName, blobExtension, uri.ToString());
+                    }
 
                 }
             }
