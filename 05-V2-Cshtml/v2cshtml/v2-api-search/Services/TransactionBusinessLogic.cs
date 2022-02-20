@@ -20,5 +20,10 @@ namespace v2_api_search.Services
             TransactionResultListInfo lsInfo = await idb.sp_transactionrecord_query(ConstValues.TransactionsByStatus, statuscode, String.Empty);
             return lsInfo;
         }
+        public async Task<TransactionResultListInfo> TransactionsByDateRange(string dateFrom_yyyyMMddTHHmmss, string dateTo_yyyyMMddTHHmmss)
+        {
+            TransactionResultListInfo lsInfo = await idb.sp_transactionrecord_query(ConstValues.TransactionsByDateRange, dateFrom_yyyyMMddTHHmmss, dateTo_yyyyMMddTHHmmss);
+            return lsInfo;
+        }
     }
 }
